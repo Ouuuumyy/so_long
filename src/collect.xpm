@@ -1,0 +1,22 @@
+/* XPM */
+static char *collect_xpm[] = {
+"16 16 2 1",      // Width Height Colors Chars-per-pixel
+"  c #000000",    // Black (space)
+". c #FFFF00",    // Yellow
+"                ", // Line 1 (16 spaces)
+"                ", // Line 2
+"      ....      ", // Line 3
+"    ........    ", // Line 4
+"   ..........   ", // Line 5
+"  ............  ", // Line 6
+"  ............  ", // Line 7
+"  ............  ", // Line 8
+"  ............  ", // Line 9
+"   ..........   ", // Line 10
+"    ........    ", // Line 11
+"      ....      ", // Line 12
+"                ", // Line 13
+"                ", // Line 14
+"                ", // Line 15
+"                "  // Line 16 (MUST match declared height)
+};
