@@ -25,6 +25,13 @@ typedef struct s_game
 
 } t_game;
 
+//libft
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
+size_t	ft_strlen(const char *c);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+
+//helper_func.s
+void exit_error(char *error_message);
 //map_size.c
 int buffer_size(char *buffer);
 int row_size(char *buffer);

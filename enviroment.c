@@ -12,26 +12,10 @@ void load_sprites(t_game *game)
         printf("Failed to load WALL at path: assets/wall.xpm\n");
         exit(1);
     }
-    game->player = mlx_xpm_file_to_image(game->mlx, "src/player.xpm", &w, &h);
-    if (!game->player) {
-        printf("Failed to load player at path: assets/wall.xpm\n");
-        exit(1);
-    }
-    game->floor = mlx_xpm_file_to_image(game->mlx, "src/floor.xpm", &w, &h);
-    if (!game->floor) {
-        printf("Failed to load floor at path: assets/wall.xpm\n");
-        exit(1);
-    }
+    game->player = mlx_xpm_file_to_image(game->mlx, "src/player.xpm", &w, &h);  
+    game->floor = mlx_xpm_file_to_image(game->mlx, "src/floor.xpm", &w, &h); 
     game->exit = mlx_xpm_file_to_image(game->mlx, "src/exit.xpm", &w, &h);
-    if (!game->exit) {
-        printf("Failed to load exit at path: assets/wall.xpm\n");
-        exit(1);
-    }
     game->collect = mlx_xpm_file_to_image(game->mlx, "src/collect.xpm", &w, &h);
-    if (!game->collect) {
-        printf("Failed to load collect at path: assets/wall.xpm\n");
-        exit(1);
-    }
     if(!game->wall || !game->player || !game->floor
         || !game->exit || !game->collect)
     {
@@ -65,7 +49,10 @@ void render_map(t_game *game)
                 sprite = game->exit;
             else if(game->map[y][x] == '0')
                 sprite = game->floor;
-            mlx_put_image_to_window(game->mlx, game->win,sprite, x * 64, y * 64);
+          //  mlx_put_image_to_window(game->mlx, game->win,sprite, x * 64, y * 64);
+          printf("%p\n", game->mlx);
+          printf("%p\n", game->win);
+
             x++;
         }
         y++;
@@ -75,6 +62,7 @@ void render_map(t_game *game)
 void start_game(t_game *game)
 {
     game->map = map_parsing();
+    
     game->mlx = mlx_init();
     game->win = mlx_new_window(game->mlx,  game->map_w * 64, game->map_h * 64, "so_long");
     // load_sprites(game);
