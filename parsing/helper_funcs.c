@@ -1,4 +1,4 @@
-#include "so_long.h"
+#include "../so_long.h"
 
 void exit_error(char *error_message)
 {

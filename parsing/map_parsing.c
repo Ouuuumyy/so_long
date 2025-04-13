@@ -1,32 +1,26 @@
 #include "../so_long.h"
 
-char *read_map(char *file_name)
+void check_chars(char *buffer)
 {
-    int fd;
-    int read_bytes;
-    char *buffer;
-    buffer = malloc(1024 * sizeof(char));
-    fd = open(file_name, O_RDONLY);
-    if (fd < 0)
-    {
-        perror("Error opening file\n");
-        exit(1);
-    }
-    read_bytes = read(fd, buffer, 1024);
-    if (read_bytes <= 0)
-    {
-        perror("Error reading file\n");
-        exit(1);
-    }
-    close(fd);
-    return buffer;
-}
+    int i;
 
+    i = 0;
+    while(buffer[i])
+    {
+        if(buffer[i] != 'P'&& buffer[i] != 'E' && buffer[i] != 'C'
+            && buffer[i] != '0' && buffer[i] != '1' && buffer[i] != '\n')
+        {
+            exit_error("Error: characters other than P, C, E, 1,0 are not allowed\n");
+            free(buffer);
+        }
+        i++;
+    }                                                                                                                                                                                                                   
+}
 char **allocate_map(int row, int col)
 {
     char **map;
     int i;
-
+                        
     i = 0;
     map = (char **)malloc(row * sizeof(char *));
     if(!map)
@@ -39,6 +33,7 @@ char **allocate_map(int row, int col)
             while(i >= 0)
             {
                 free(map[i]);
+                free(map);
                 i--;
             }
             return NULL;
@@ -78,6 +73,8 @@ void fill_map(char **map, char *buffer, int buff_size)
     printf("\n");
 }
 
+
+
 char **create_map(char *buffer)
 {
     char **map;
@@ -89,37 +86,45 @@ char **create_map(char *buffer)
     col = col_size(buffer);
     buff_size = buffer_size(buffer);
     map = allocate_map(row, col);
+    if(!map)
+    {
+        free_map(map, row);
+        exit_error("Error: memory allocation failed\n");
+    }
     fill_map(map, buffer, buff_size);
     return map;
 }
 
-char **map_parsing()
+t_map *map_parsing()
 {
     char *buffer;
-    char **map;
-    int rows;
-    int cols;
+    t_map *g_map;
 
-    
-    buffer = read_map("./map.ber");
-    cols = col_size(buffer);
-    rows = row_size(buffer);
-    printf("row size: %d\n",rows);
-    printf("col size: %d\n",cols);
-    map = create_map(buffer);
-    check_collectible(buffer);
-    check_exit(buffer);
-    check_start(buffer);
-    is_rectagular(map, rows);
-    check_walls(map, rows, cols);
+    buffer = read_file("./map.ber");
+    g_map = malloc(sizeof(g_map));
+    if(!g_map)
+        exit_error("Error: couldn't create map");
+    g_map->cols = col_size(buffer);
+    g_map->rows = row_size(buffer);
+    g_map->collects = count_collect(buffer);
+    g_map->move_count = 0;
+    printf("collect: %d\n",g_map->collects);
+    g_map->map = create_map(buffer);
+    check_chars(buffer);
+    check_elements(buffer);
+    is_rectagular(g_map->map, g_map->rows);
+    check_walls(g_map->map, g_map->rows, g_map->cols);
+    check_accessible_path(g_map->map, g_map->rows, g_map->cols);
     free(buffer);
-    return map;
+    return g_map;
 }
 
 // int main()
 // {
-//     char **map;
+//     t_map *g_map;
 
-//     map = map_parsing();
+//     g_map = map_parsing();
+//     free_map(g_map->map, g_map->rows);
+//     free(g_map);
 //     return 0;
 // }

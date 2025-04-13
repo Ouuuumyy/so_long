@@ -74,9 +74,9 @@ char *read_file(char *file_name)
     return buffer;
 }
 
-int main()
-{
-    char *map = read_file("./map.ber");
-    free(map);
-    return 0;
-}
+// int main()
+// {
+//     char *map = read_file("./map.ber");
+//     free(map);
+//     return 0;
+// }

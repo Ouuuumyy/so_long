@@ -1,22 +1,39 @@
 /* XPM */
-static char *exit_xpm[] = {
-"16 16 2 1",       // Width Height Colors Chars-per-pixel
-"  c #000000",     // Black (space)
-". c #FF00FF",     // Magenta
-"                ", // Line 1 (16 spaces)
-"  ............. ", // Line 2
-"  .          .  ", // Line 3
-"  .   ....   .  ", // Line 4
-"  .   ....   .  ", // Line 5
-"  .   ....   .  ", // Line 6
-"  .   ....   .  ", // Line 7
-"  .          .  ", // Line 8
-"  .          .  ", // Line 9
-"  .          .  ", // Line 10
-"  .          .  ", // Line 11
-"  .          .  ", // Line 12
-"  .          .  ", // Line 13
-"  ............. ", // Line 14
-"                ", // Line 15
-"                "  // Line 16 (must match declared 16 height)
+static char *red_square[] = {
+"32 32 2 1",
+"  c #FF0000",  // Red
+". c #FFFFFF",  // White (background color)
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"                                "
 };

@@ -1,83 +1,30 @@
 #include "../so_long.h"
 
-void check_exit(char *buffer)
+void check_elements(char *buffer)
 {
     int i;
-    int find;
-    char *temp;
+    int e;
+    int c;
+    int p;
 
-    i = 0,
-    find = 0;
-    temp = buffer;
-    while (temp[i])
+
+    i = 0;
+    e = 0;
+    c = 0;
+    p = 0;
+    while (buffer[i])
     {
-        if (temp[i] == 'E')
-        {
-            find++;
-            if (find > 1)
-            {
-                perror("Error: more than one exit");
-                exit(1);
-            }
-        }
+        if (buffer[i] == 'E') e++;
+        else if (buffer[i] == 'P') p++;
+        else if (buffer[i] == 'C') c++;
         i++;
     }
-    if (find == 0)
-    {
-        perror("Error: no exit found");
-        exit(1);
-    }
-}
-
-void check_start(char *buffer)
-{
-    int i;
-    int find;
-    char *temp;
-
-    i = 0,
-    find = 0;
-    temp = buffer;
-    while (temp[i])
-    {
-        if (temp[i] == 'P')
-        {
-            find++;
-            if (find > 1)
-            {
-                perror("Error: more than one Player start position");
-                exit(1);
-            }
-        }
-        i++;
-    }
-    if (find == 0)
-    {
-        perror("Error: no Player start position found");
-        exit(1);
-    }
-}
-
-void check_collectible(char *buffer)
-{
-    int i;
-    int find;
-    char *temp;
-
-    i = 0,
-    find = 0;
-    temp = buffer;
-    while (temp[i])
-    {
-        if (temp[i] == 'C')
-            find++;
-        i++;
-    }
-    if (find == 0)
-    {
-        perror("Error: no collectible found");
-        exit(1);
-    }
+    if(e != 1)
+        exit_error("Error: you must have at exactly one exit point\n");
+    if(p != 1)
+        exit_error("Error: you must have at exactly one start point\n");
+    if(c < 1)
+        exit_error("Error: you must have at least one collectible point\n");
 }
 
 void check_walls(char **map, int row, int col)
@@ -128,11 +75,7 @@ void is_rectagular(char **map, int row)
         if(col == col_size)
             i++;
         else
-        {
-            perror("Error: map is not rectangular\n");
-            exit(1);
-        }
+            exit_error("Error: map is not rectangular\n");
         col = 0;
     }
 }
-//check if the exit and collectibles 
