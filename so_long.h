@@ -1,85 +1,61 @@
-#ifndef SO_LONG_H   
-#define SO_LONG_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oukadir <oukadir@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/14 14:53:23 by oukadir           #+#    #+#             */
+/*   Updated: 2025/04/14 20:27:01 by oukadir          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include "minilibx-linux/mlx.h"
+#ifndef SO_LONG_H
+# define SO_LONG_H
 
-typedef struct s_map
-{
-    int rows;
-    int cols;
-    char **map;
-    int collects;
-    int move_count;
-} t_map;
-
+# include "minilibx-linux/mlx.h"
+# include "parsing/parsing.h"
 
 typedef struct s_img
 {
-    void *wall;
-    void *player;
-    void *exit;
-    void *floor;
-    void *collect;
-    int img_hei;
-    int img_wid;
+	void	*wall;
+	void	*player;
+	void	*exit;
+	void	*floor;
+	void	*collect;
+	int		img_hei;
+	int		img_wid;
 
-} t_img;
+}			t_img;
 
 typedef struct s_game
 {
-    void    *mlx;
-    void    *win;
-    t_map   *map;
-    t_img   *img;
+	void	*mlx;
+	void	*win;
+	t_map	*map;
+	t_img	*img;
 
-} t_game;
-
+}			t_game;
 
 //libft
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
-size_t	ft_strlen(const char *c);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
-
-//helper_func.s
-void exit_error(char *error_message);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+size_t		ft_strlen(const char *c);
+void		*ft_memcpy(void *dst, const void *src, size_t n);
+char	*ft_strdup(const char *str);
+int ft_strlen2(char **str);
 
 //render_utils.c
-void free_textures(t_img *img, void *mlx);
+void		free_textures(t_img *img, void *mlx);
 
-//map_utils.c
-int buffer_size(char *buffer);
-int row_size(char *buffer);
-int col_size(char *buffer);
-char **copy_map(char **map, int rows, int cols);
-void free_map(char **map, int row_size);
-int count_collect(char *buffer);
+int			key_hook(int keycode, t_game *game);
+void		render_map(void *mlx, void *window, t_map *g_map, t_img *img);
+int			close_game(t_game *game);
 
-//parsing_functions.c
-void check_exit(char *buffer);
-void check_start(char *buffer);
-void check_collectible(char *buffer);
-void check_walls(char **map, int row, int col);
-void is_rectagular(char **map, int row);
-t_map *map_parsing();
+void		*create_window(t_map *g_map, void *mlx);
+void		*load_texture(void *mlx, char *filename);
+void		load_sprites(void *mlx, t_img *img);
 
-//map_parsing
-char **allocate_map(int row, int col);
-
-//check_access
-void check_accessible_path(char **map, int rows, int cols);
-
-//read_file
-char *read_file(char *file_name);
-void check_elements(char *buffer);
-
-int key_hook(int keycode, t_game *game);
-void render_map(void *mlx, void *window, t_map *g_map, t_img *img);
-void find_player(char **map, int rows, int *x, int *y);
-int close_game(t_game *game);
-
+void		ft_putstr_fd(char *s, int fd);
+void		ft_putnbr_fd(int n, int fd);
 
 #endif
