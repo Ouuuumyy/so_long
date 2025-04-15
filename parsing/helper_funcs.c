@@ -6,7 +6,7 @@
 /*   By: oukadir <oukadir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 14:46:55 by oukadir           #+#    #+#             */
-/*   Updated: 2025/04/14 20:35:45 by oukadir          ###   ########.fr       */
+/*   Updated: 2025/04/15 15:47:53 by oukadir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char	**copy_map(char **map, int rows, int cols)
 		ft_memcpy(new_map[i], map[i], cols + 1);
 		i++;
 	}
+	new_map[i] = NULL;
 	return (new_map);
 }
 
@@ -49,16 +50,22 @@ void	free_map(char **map, int row_size)
 	free(map);
 }
 
-t_file	*init_file(char *file_name)
+t_file	*init_file(char *file_name, t_game *game)
 {
 	t_file	*file;
 
 	file = malloc(sizeof(t_file));
 	file->total_bytes = 0;
 	file->buffer_size = 1024;
-	file->fd = open_file(file_name);
+	file->fd = open_file(file_name, game, file);
 	file->buffer = allocate_buffer();
 	file->read_bytes = read(file->fd, file->buffer + file->total_bytes,
 			file->buffer_size - file->total_bytes - 1);
 	return (file);
+}
+
+void	print_error(t_game *game, t_map *map)
+{
+	free_data(map, game);
+	exit_error("invalid map\n");
 }

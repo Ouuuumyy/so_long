@@ -6,7 +6,7 @@
 /*   By: oukadir <oukadir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 17:47:17 by oukadir           #+#    #+#             */
-/*   Updated: 2025/04/14 20:46:07 by oukadir          ###   ########.fr       */
+/*   Updated: 2025/04/15 15:51:32 by oukadir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ void	*load_texture(void *mlx, char *filename)
 
 void	load_sprites(void *mlx, t_img *img)
 {
-	img->wall = load_texture(mlx, "assets/wall.xpm");
-	img->player = load_texture(mlx, "assets/player.xpm");
-	img->floor = load_texture(mlx, "assets/floor.xpm");
-	img->exit = load_texture(mlx, "assets/exit.xpm");
-	img->collect = load_texture(mlx, "assets/collect.xpm");
+	img->wall = load_texture(mlx, "textures/wall.xpm");
+	img->player = load_texture(mlx, "textures/player.xpm");
+	img->floor = load_texture(mlx, "textures/floor.xpm");
+	img->exit = load_texture(mlx, "textures/exit.xpm");
+	img->collect = load_texture(mlx, "textures/collect.xpm");
 }
 
 void	render_map(void *mlx, void *win, t_map *g_map, t_img *img)

@@ -6,7 +6,7 @@
 /*   By: oukadir <oukadir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 14:47:16 by oukadir           #+#    #+#             */
-/*   Updated: 2025/04/14 20:41:30 by oukadir          ###   ########.fr       */
+/*   Updated: 2025/04/15 15:37:36 by oukadir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ int	row_size(char *buffer)
 	while (buffer[i])
 	{
 		if (buffer[i] == '\n' && buffer[i + 1] && buffer[i + 1] == '\n')
-			break;
+			break ;
 		if (buffer[i] == '\n')
 			rows++;
 		i++;
 	}
-	if (buffer[i - 1] != '\n')
+	if (i > 1 && buffer[i - 1] != '\n')
 		rows++;
 	return (rows);
 }

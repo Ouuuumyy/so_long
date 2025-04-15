@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "so_long.h": "c",
-        "parsing.h": "c"
+        "parsing.h": "c",
+        "map": "c",
+        "format": "c"
     }
 }

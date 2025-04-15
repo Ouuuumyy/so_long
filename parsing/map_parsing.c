@@ -6,7 +6,7 @@
 /*   By: oukadir <oukadir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 14:47:06 by oukadir           #+#    #+#             */
-/*   Updated: 2025/04/14 20:29:33 by oukadir          ###   ########.fr       */
+/*   Updated: 2025/04/15 15:57:21 by oukadir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,80 +39,85 @@ char	**allocate_map(int row, int col)
 	return (map);
 }
 
-void	fill_map(char **map, char *buffer, int buff_size)
+void	fill(t_map *m, t_game *game, int row, int col)
 {
-	int	row;
-	int	col;
-	(void) buff_size;
 	int	i;
 
-	row = 0;
-	col = 0;
 	i = 0;
-	while (buffer[i])
+	while (m->buff[i])
 	{
-		if (buffer[i] == '\n' && (buffer[i + 1] && (buffer[i + 1] == '\n')))
-			break;
-		if (buffer[i] == '\n')
+		if (m->buff[i] == '\n' && (m->buff[i + 1] && (m->buff[i + 1] == '\n')))
+			print_error(game, m);
+		if (m->buff[i] == '\n')
 		{
-			map[row][col] = '\0';
+			m->map[row][col] = '\0';
 			row++;
 			i++;
 			col = 0;
 		}
-		else
+		else if (col <= m->cols)
 		{
-			map[row][col] = buffer[i];
+			m->map[row][col] = m->buff[i];
 			col++;
 			i++;
 		}
+		else
+			print_error(game, m);
 	}
-	map[row][col] = '\0';
-	map[row + 1] = NULL;
+	m->map[row][col] = '\0';
+	m->map[row + 1] = NULL;
 }
 
-char	**create_map(char *buffer)
+void	fill_map(t_game *game, t_map *g_map)
 {
-	char	**map;
-	int		row;
-	int		col;
-	int		buff_size;
+	int	row;
+	int	col;
+
+	row = 0;
+	col = 0;
+	fill(g_map, game, row, col);
+}
+
+char	**create_map(char *buffer, t_game *game, t_map *g_map)
+{
+	int	row;
+	int	col;
+	int	buff_size;
 
 	row = row_size(buffer);
 	col = col_size(buffer);
 	buff_size = buffer_size(buffer);
-
-	map = allocate_map(row, col);
-	if (!map)
+	g_map->map = allocate_map(row, col);
+	if (!g_map->map)
 	{
-		free_map(map, row);
-		exit_error("Error: memory allocation failed\n");
+		free_map(g_map->map, row);
+		exit_error("memory allocation failed\n");
 	}
-	fill_map(map, buffer, buff_size);
-	return (map);
+	fill_map(game, g_map);
+	return (g_map->map);
 }
 
-t_map	*map_parsing(char *file_name)
+t_map	*map_parsing(char *file_name, t_game *game)
 {
 	char	*buffer;
 	t_map	*g_map;
 
-	buffer = read_file(file_name);
+	buffer = read_file(file_name, game);
 	g_map = malloc(sizeof(t_map));
 	if (!g_map)
-		exit_error("Error: couldn't create map");
+		exit_error("couldn't create map");
 	g_map->cols = col_size(buffer);
 	g_map->rows = row_size(buffer);
 	g_map->collects = count_collect(buffer);
 	g_map->move_count = 0;
-	printf("collect: %d\n", g_map->collects);
-	g_map->map = create_map(buffer);
-	check_chars(buffer);
-	check_elements(buffer);
+	g_map->buff = buffer;
+	g_map->map = create_map(buffer, game, g_map);
+	check_chars(g_map, game);
+	check_elements(g_map, game);
 	g_map->rows = ft_strlen2(g_map->map);
-	is_rectagular(g_map->map, g_map->rows);
-	check_walls(g_map->map, g_map->rows, g_map->cols);
-	check_accessible_path(g_map->map, g_map->rows, g_map->cols);
+	is_rectagular(g_map, game);
+	check_walls(g_map, game);
+	check_accessible_path(g_map, game);
 	free(buffer);
 	return (g_map);
 }

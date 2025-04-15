@@ -19,7 +19,7 @@ void	print_moves(int moves)
 	ft_putstr_fd("\n", 1);
 }
 
-void	exit_game(int collects,t_game *game)
+void	exit_game(int collects, t_game *game)
 {
 	if (collects == 0)
 	{
@@ -45,7 +45,7 @@ void	move_player(t_game *game, int dx, int dy)
 				game->map->collects--;
 			if (game->map->map[p_row + dy][p_col + dx] == 'E')
 			{
-				exit_game(game->map->collects,game);
+				exit_game(game->map->collects, game);
 				return ;
 			}
 			game->map->map[p_row][p_col] = '0';
@@ -75,11 +75,11 @@ int	key_hook(int keycode, t_game *game)
 int	close_game(t_game *game)
 {
 	mlx_destroy_window(game->mlx, game->win);
-		free_map(game->map->map, game->map->rows);
-		free_textures(game->img, game->mlx);
-		mlx_destroy_display(game->mlx);
-		free(game->map);
-		free(game->mlx);
-		free(game);
-		exit(0);
+	free_map(game->map->map, game->map->rows);
+	free_textures(game->img, game->mlx);
+	mlx_destroy_display(game->mlx);
+	free(game->map);
+	free(game->mlx);
+	free(game);
+	exit(0);
 }

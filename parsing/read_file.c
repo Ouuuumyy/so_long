@@ -6,13 +6,13 @@
 /*   By: oukadir <oukadir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 14:47:29 by oukadir           #+#    #+#             */
-/*   Updated: 2025/04/14 19:48:09 by oukadir          ###   ########.fr       */
+/*   Updated: 2025/04/15 14:37:41 by oukadir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-int	open_file(char *filename)
+int	open_file(char *filename, t_game *game, t_file *file)
 {
 	int	fd;
 	int	len;
@@ -20,11 +20,17 @@ int	open_file(char *filename)
 	len = ft_strlen(filename);
 	if (ft_strncmp(filename + (len - 4), ".ber", 4) != 0)
 	{
+		free(file);
+		free(game);
 		exit_error("Error: Map file must have .ber extention\n");
 	}
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
+	{
+		free(file);
+		free(game);
 		exit_error("Error: can not open file\n");
+	}
 	return (fd);
 }
 
@@ -58,12 +64,12 @@ void	check_read_bytes(int fd, char *buffer, int read_bytes)
 	}
 }
 
-char	*read_file(char *file_name)
+char	*read_file(char *file_name, t_game *game)
 {
 	t_file	*file;
-	char *buf;
+	char	*buf;
 
-	file = init_file(file_name);
+	file = init_file(file_name, game);
 	while (file->read_bytes > 0)
 	{
 		file->total_bytes += file->read_bytes;
@@ -81,7 +87,7 @@ char	*read_file(char *file_name)
 	file->buffer[file->total_bytes] = '\0';
 	close(file->fd);
 	buf = ft_strdup(file->buffer);
-	free (file->buffer);
-	free (file);
+	free(file->buffer);
+	free(file);
 	return (buf);
 }

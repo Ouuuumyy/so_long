@@ -1,7 +1,7 @@
 NAME = so_long
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror# -g3  -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -g3
 
 SRC = game.c\
 	player/movement.c\
@@ -9,30 +9,32 @@ SRC = game.c\
 	rendering/render_utils.c\
 	libft/memcpy.c\
 	libft/string.c\
-	libft/putnbr_fd.c
+	libft/putnbr_fd.c\
+	parsing/check_access.c \
+	parsing/helper_funcs.c \
+	parsing/map_parsing.c \
+	parsing/map_utils.c \
+	parsing/parsing_functions.c \
+	parsing/read_file.c
 
 OBJ = $(SRC:.c=.o)
 
-PARSING_DIR = parsing
-PARSING_LIB = $(PARSING_DIR)/parsing.a
+
 
 MLX = -L minilibx-linux -lmlx_Linux -lXext -lX11 -lm -lz 
 
-all: $(PARSING_LIB) $(NAME)
+all: $(NAME)
 
-$(PARSING_LIB):
-	$(MAKE) -C $(PARSING_DIR)
 
-$(NAME): $(OBJ) $(PARSING_LIB)
-	$(CC) $(CFLAGS) $(OBJ) $(PARSING_LIB) $(MLX) -o $(NAME)
+
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(MLX) -o $(NAME)
 
 clean:
 	rm -f $(OBJ)
-	$(MAKE) clean -C $(PARSING_DIR)
 
 fclean: clean
 	rm -f $(NAME)
-	$(MAKE) fclean -C $(PARSING_DIR)
 
 re: fclean all
 

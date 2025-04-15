@@ -6,7 +6,7 @@
 /*   By: oukadir <oukadir@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:57:06 by oukadir           #+#    #+#             */
-/*   Updated: 2025/04/14 20:26:47 by oukadir          ###   ########.fr       */
+/*   Updated: 2025/04/15 13:34:33 by oukadir          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ char	*ft_strdup(const char *str)
 	return (c);
 }
 
-int ft_strlen2(char **str)
+int	ft_strlen2(char **str)
 {
-	int i;
-	i = 0;
+	int	i;
 
-	while(str[i])
+	i = 0;
+	while (str[i])
 		i++;
-	return(i);
+	return (i);
 }
